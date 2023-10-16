@@ -27,7 +27,7 @@ app.get('/comments', commentsController.getAllComments)
 app.get('/comments/:id', commentsController.getOneComment)
 
 //Extended
-app.post('comments',  commentsController.createComment)
+app.post('/comments',  commentsController.createComment)
 app.put('/users/:id/wishlist-add', usersController.addToWishlist)
 app.delete('/users/:id/wishlist-delete', usersController.deleteFromWishlist)
 app.get('/users/:id/exists-on-wishlist', usersController.existsOnWishlist )

@@ -82,7 +82,7 @@ async function deleteFromWishlist(req, res) {
 
 async function existsOnWishlist(req, res) {
     await handleOperation(req, res, async (id) => {
-        const user = await User.findById(userId);
+        const user = await User.findById(req.params.id);
 
         if (user && user.deal_id.includes(req.body.deal_id)) {
             return {exists: true}

@@ -1,5 +1,7 @@
 const Comment = require('../models/comments')
 const mongoose = require('mongoose')
+const User = require('../models/users')
+const Deal = require('../models/deals')
 
 function isValidCommentId(id) {
     return mongoose.Types.ObjectId.isValid(id)
@@ -55,6 +57,11 @@ async function createComment(req, res) {
     try {
         const comment = await new Comment(req.body)
         await comment.save()
+        // console.log(req.body.deal_id)
+        let comments = (await Deal.findById(req.body.deal_id)).comment_id
+        // console.log(comments)
+        comments.push(comment._id)
+        await Deal.findByIdAndUpdate(req.body.deal_id, {comment_id: comments}, { new: true })
         res.status(201).json(comment)
     } catch (e) {
         res.status(500).json({ error: e.message })
