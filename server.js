@@ -1,12 +1,12 @@
 const express = require('express');
-const db = require('./config');
+const db = require('./db');
 const logger = require('morgan')
-const bodyParser = require('body-paraser')
+const bodyParser = require('body-parser')
 const cors = require('cors')
 
-const actorsController = require('./controllers/dealController')
-const moviesController = require('./controllers/userController')
-const reviewsController = require('./controllers/reviewController');
+const dealsController = require('./controllers/dealController')
+const usersController = require('./controllers/userController')
+const commentsController = require('./controllers/commentController');
 
 const PORT = process.env.PORT || 3001;
 
@@ -16,14 +16,23 @@ app.use(bodyParser.json())
 app.use(cors())
 
 
-app.get('/', actorsController.getAllActors)
+app.get('/', (req, res) => res.send('This is root'))
 
-app.get('/actors', actorsController.getAllActors)
-app.get('/actors/:id', actorsController.getOneActor)
-app.get('/movies', moviesController.getAllMovies)
-app.get('/movies/:id', moviesController.getOneMovie)
-app.get('/reviews', reviewsController.getAllReviews)
-app.get('/reviews/:id', reviewsController.getOneReview)
+//GET
+app.get('/deals', dealsController.getAllDeals)
+app.get('/deals/:id', dealsController.getOneDeal)
+app.get('/users', usersController.getAllUsers)
+app.get('/users/:id', usersController.getOneUser)
+app.get('/comments', commentsController.getAllComments)
+app.get('/comments/:id', commentsController.getOneComment)
+
+//Extended
+app.post('comments',  commentsController.createComment)
+app.put('/users/:id/wishlist-add', usersController.addToWishlist)
+app.delete('/users/:id/wishlist-delete', usersController.deleteFromWishlist)
+app.get('/users/:id/exists-on-wishlist', usersController.existsOnWishlist )
+app.put('/deals/:id', dealsController.addToCommentsList)
+
 
 
 

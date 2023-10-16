@@ -1,28 +1,106 @@
-const User = require('../models/user')
+const User = require('../models/users')
+const mongoose = require('mongoose')
 
-const getAllUsers = async (req,res) => {
-    try {
-        const users = await User.find()
-        return res.json(users)
-    } catch (e) {
-        return res.status(500).send(e.message)
-    }
+function isValidUserId(id) {
+    return mongoose.Types.ObjectId.isValid(id)
 }
 
-const getOneUser = async (req,res) => {
+async function findUserById(id) {
+    return await User.findById(id)
+}
+
+async function handleOperation(req, res, operation) {
     try {
-        const id = req.params.id
-        const user = await User.findById(id)
-        if (user) {
-            return res.json(user)
+        const id = req.params.id;
+        if (!isValidUserId(id)) {
+            return res.status(400).send('Invalid User ID')
         }
-        return res.status(404).send('User with specified ID does not exist')
+
+        const user = await operation(id)
+
+        if (!user) {
+            return res.status(404).send('User not found')
+        }
+
+        res.json(user);
     } catch (e) {
-        return res.status(500).send(e.message)
+        res.status(500).send(e.message)
     }
 }
+
+async function getAllUsers(req, res) {
+    const users = await User.find()
+    res.json(users)
+}
+
+async function deleteUser(req, res) {
+    await handleOperation(req, res, async (id) => {
+        return await User.findByIdAndDelete(id)
+    });
+}
+
+async function updateUser(req, res) {
+    await handleOperation(req, res, async (id) => {
+        return await User.findByIdAndUpdate(id, req.body, { new: true })
+    });
+}
+
+async function getOneUser(req, res) {
+    await handleOperation(req, res, async (id) => {
+        return await findUserById(id)
+    });
+}
+
+async function createUser(req, res) {
+    try {
+        const user = await new User(req.body)
+        await user.save();
+        res.status(201).json(user)
+    } catch (e) {
+        res.status(500).json({ error: e.message })
+    }
+}
+
+async function addToWishlist(req, res) {
+    await handleOperation(req, res, async (id) => {
+        let wishList = (await User.findById(id)).deal_id
+        wishList.push(req.body.deal_id)
+        return await User.findByIdAndUpdate(id, {deal_id: wishList}, { new: true })
+    });
+}
+
+async function deleteFromWishlist(req, res) {
+    await handleOperation(req, res, async (id) => {
+        
+        const user = await User.findByIdAndUpdate(id, {
+            $pull: {deal_id: req.body.deal_id}
+        }, {new:true})
+        
+        return user
+    });
+}
+
+async function existsOnWishlist(req, res) {
+    await handleOperation(req, res, async (id) => {
+        const user = await User.findById(userId);
+
+        if (user && user.deal_id.includes(req.body.deal_id)) {
+            return {exists: true}
+        } else {
+            return {exists: false}
+        }       
+        
+    })
+}
+
 
 module.exports = {
     getAllUsers,
-    getOneUser
+    getOneUser,
+    deleteUser,
+    updateUser,
+    createUser,
+    addToWishlist,
+    deleteFromWishlist,
+    existsOnWishlist
 }

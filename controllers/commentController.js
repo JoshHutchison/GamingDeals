@@ -1,28 +1,70 @@
 const Comment = require('../models/comments')
+const mongoose = require('mongoose')
 
-const getAllComments = async (req,res) => {
+function isValidCommentId(id) {
+    return mongoose.Types.ObjectId.isValid(id)
+}
+
+async function findCommentById(id) {
+    return await Comment.findById(id)
+}
+
+async function handleOperation(req, res, operation) {
     try {
-        const comments = await Comment.find()
-        return res.json(comments)
+        const id = req.params.id
+        if (!isValidCommentId(id)) {
+            return res.status(400).send('Invalid Comment ID')
+        }
+
+        const comment = await operation(id)
+
+        if (!comment) {
+            return res.status(404).send('Comment not found')
+        }
+
+        res.json(comment)
     } catch (e) {
-        return res.status(500).send(e.message)
+        res.status(500).send(e.message)
     }
 }
 
-const getOneComment = async (req,res) => {
+async function getAllComments(req, res) {
+    const comments = await Comment.find()
+    res.json(comments)
+}
+
+async function deleteComment(req, res) {
+    await handleOperation(req, res, async (id) => {
+        return await Comment.findByIdAndDelete(id)
+    })
+}
+
+async function updateComment(req, res) {
+    await handleOperation(req, res, async (id) => {
+        return await Comment.findByIdAndUpdate(id, req.body, { new: true })
+    })
+}
+
+async function getOneComment(req, res) {
+    await handleOperation(req, res, async (id) => {
+        return await findCommentById(id)
+    })
+}
+
+async function createComment(req, res) {
     try {
-        const id = req.params.id
-        const comment = await Comment.findById(id)
-        if (comment) {
-            return res.json(comment)
-        }
-        return res.status(404).send('Comment with specified ID does not exist')
+        const comment = await new Comment(req.body)
+        await comment.save()
+        res.status(201).json(comment)
     } catch (e) {
-        return res.status(500).send(e.message)
+        res.status(500).json({ error: e.message })
     }
 }
 
 module.exports = {
     getAllComments,
-    getOneComment
+    getOneComment,
+    deleteComment,
+    updateComment,
+    createComment
 }

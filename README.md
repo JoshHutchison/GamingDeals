@@ -34,3 +34,9 @@ https://lucid.app/lucidchart/044e2f9a-f8d5-4097-84c1-efc0c66e342b/edit?invitatio
 ### User page with Wishlist
 ![Screenshot 2023-10-12 at 10 38 11 PM](https://github.com/JoshHutchison/GamingDeals/assets/47956394/f341d8e6-bb05-4c52-bbd8-55923fe644f0)
 
+### How to seed
+- run :
+```node seed/consumeApi.js```
+```node seed/addUsers.js```
+```node seed/addComments.js```
+```node seed/addCommentsToDeals.js```
