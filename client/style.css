@@ -1,0 +1,30 @@
+/* Header Styles */
+
+
+
+/* Body Styles */
+.main {
+
+    background-color: rgb(203, 194, 194);
+    align-items: center;
+    padding: 20px;
+}
+
+.deals-body { 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.item-holder {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;    
+    min-height: 400px;
+    width: 300px;
+    background-color: whitesmoke;
+    box-shadow: 0 10px 15px #6d7c6e;
+    margin: 30px auto;
+    border: 20px;
+    position: relative;
+}
