@@ -36,7 +36,7 @@ https://lucid.app/lucidchart/044e2f9a-f8d5-4097-84c1-efc0c66e342b/edit?invitatio
 
 ### How to seed
 - run :
-```node seed/consumeApi.js```
-```node seed/addUsers.js```
-```node seed/addComments.js```
-```node seed/addCommentsToDeals.js```
+- ```node seed/consumeApi.js```
+- ```node seed/addUsers.js```
+- ```node seed/addComments.js```
+- ```node seed/addCommentsToDeals.js```

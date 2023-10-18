@@ -15,9 +15,21 @@ const populateMain = async () => {
     // for (let i = 0; i < comment_ids.length; i++) {
     //     (await axios.get(`${base}/comments/${comments_ids[i]}`)).data
         
-    // }
+    // }       ${comments.map(comment => `<li>${comment.text}</li>`).join('')}
 
-    let dealCard = `<div class="item-holder" data-deal-id="${dealData._id}">
+    let comments = []
+    console.log(dealData.comment_id)
+    if (dealData.comment_id) {
+        dealData.comment_id.forEach((comment) => {
+            comments.push(`<li>User: ${comment.user_id.user_name}, 
+                Comment Rating: ${comment.comment_rating},
+                Comment: ${comment.comment_text}
+                </li>`)
+        })
+    }
+    
+
+    let dealCard = `<div class="deal-card" data-deal-id="${dealData._id}">
         <img src="${dealData.image}" alt="" class="deal-pic">
         <h3 class="deal-name">${dealData.title}</h3>
         <p class="price">Price: ${dealData.worth}</p>
@@ -34,7 +46,7 @@ const populateMain = async () => {
         <p class="createdAt">Created At: ${dealData.createdAt}</p>
         <p class="updatedAt">Updated At: ${dealData.updatedAt}</p>
         <ul class="comments-list">
-            ${comments.map(comment => `<li>${comment.text}</li>`).join('')}
+        ${comments}
         </ul>
         </div>` 
     dealsBody.innerHTML += dealCard   

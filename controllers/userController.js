@@ -6,7 +6,7 @@ function isValidUserId(id) {
 }
 
 async function findUserById(id) {
-    return await User.findById(id)
+    return await User.findById(id).populate('deal_id').exec()
 }
 
 async function handleOperation(req, res, operation) {

@@ -6,7 +6,16 @@ function isValidObjectId(id) {
 }
 
 async function findDealById(id) {
+    // return await Deal.findById(id).populate('comment_id').exec()
     return await Deal.findById(id)
+        .populate({
+            path: 'comment_id',
+            populate: {
+                path: 'user_id',
+                model: 'User',
+            },
+        })
+        .exec()
 }
 
 async function handleOperation(req, res, operation) {
