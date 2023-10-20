@@ -64,14 +64,24 @@ async function createUser(req, res) {
 async function addToWishlist(req, res) {
     await handleOperation(req, res, async (id) => {
         let wishList = (await User.findById(id)).deal_id
-        wishList.push(req.body.deal_id)
-        return await User.findByIdAndUpdate(id, {deal_id: wishList}, { new: true })
-    });
+        let wishListString = wishList.map(id => id.toString())
+        console.log('add', req.body)
+        if (!wishListString.includes(req.body.deal_id.toString())) {
+            wishListString.push(req.body.deal_id.toString()) 
+            console.log(wishListString)
+            const uniqueWishList = Array.from(new Set(wishListString));
+            console.log(uniqueWishList)
+            await User.findByIdAndUpdate(id, {deal_id: uniqueWishList}, { new: true })
+        }       
+        return User.findById(id)
+    })
 }
 
 async function deleteFromWishlist(req, res) {
     await handleOperation(req, res, async (id) => {
+        console.log('body',req.body)
         
+        // console.log('dealobj',dealObjectId)
         const user = await User.findByIdAndUpdate(id, {
             $pull: {deal_id: req.body.deal_id}
         }, {new:true})

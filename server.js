@@ -29,9 +29,10 @@ app.get('/comments/:id', commentsController.getOneComment)
 //Extended
 app.post('/comments',  commentsController.createComment)
 app.put('/users/:id/wishlist-add', usersController.addToWishlist)
-app.delete('/users/:id/wishlist-delete', usersController.deleteFromWishlist)
+app.put('/users/:id/wishlist-delete', usersController.deleteFromWishlist)
 app.get('/users/:id/exists-on-wishlist', usersController.existsOnWishlist )
 app.put('/deals/:id', dealsController.addToCommentsList)
+app.post('/users/', usersController.createUser)
 
 
 

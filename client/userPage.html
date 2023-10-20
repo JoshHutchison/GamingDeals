@@ -3,33 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="gamer.png">   
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="userPage.js" defer></script>
-    <title>Document</title>
+    <script type="module" src="userPage.js" defer></script>
+    <title>User</title>
 </head>
-<body>
+<body class="wishlist-body">
     <header>
         <nav class="navbar">
             <div class="navbar-left">
-                <a href="#" class="logo">Gaming Deals</a>
+                <a href="index.html" class="logo">Gaming Deals</a>
             </div>
             <div class="navbar-right">
-                <a href="#">Login</a>
-                <a href="#">Wishlist</a>
+                
+                <div><a class="dialog-login" href="#">Login</a></div>
+                <a class='login-link' href="#">Wishlist</a>
+              
             </div>
         </nav>
     </header>
 
-    <main>
-        <h3>User Page</h3>
-        <div class="user-info">
+
+    
+    <main class="main">      
+        <div class="user-info hidden">
             
         </div>
-        <div class="wishlist">
+        <div class="wishlist item-holder">
             <h3>Wishlist</h3>
             <div class="deals-body"></div>            
         </div>
+        <dialog class="dialog">
+            <div id="login" class="modal">
+      
+                <form class="modal-content animate" action="" >
+                  <div class="imgcontainer">
+                    <span class="close" title="Close Modal">&times;</span>
+                    <img src="gamer.jpeg" alt="Avatar" class="avatar">
+                  </div>
+              
+                  <div class="container">
+                    <label for="uname"><b>Username</b></label>
+                    <input class='username' type="text" placeholder="Enter Username" name="uname" required>
+              
+                    <label for="psw"><b>Password</b></label>
+                    <input class='password' type="password" placeholder="Enter Password" name="psw" required>
+                    <p class="invalid-login"></p>  
+                    <button type="submit">Login</button>
+                    <label>
+                      <!-- <input type="checkbox" checked="checked" name="remember"> Remember me -->
+                    </label>
+                  </div>
+              
+                  <div class="container" style="background-color:#f1f1f1">
+                    <button type="button"  class="cancelbtn">Cancel</button>
+                    <span class="psw"> <a href="#">Add New User</a></span>
+                  </div>
+                </form>
+              </div>
+          </dialog>
+
     </main>
 </body>
 </html>
