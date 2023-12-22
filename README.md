@@ -16,7 +16,7 @@ It will be seeded from here:
 - on the user page, the ability to see all comments they have made
 - responsive design with hamburger button
 - hovering over each item on the homepage will popup a preview of the deal homepage
-- animations possibly for adding to the wishlist
+
 
 ## ERD
 https://lucid.app/lucidchart/044e2f9a-f8d5-4097-84c1-efc0c66e342b/edit?invitationId=inv_6b1cd47f-d6e3-47da-8435-04563d12d07b
